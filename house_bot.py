@@ -86,7 +86,7 @@ def get_articles(news_msg):
             parcetime = datetime.strptime(articletime, "%Y.%m.%d %H:%M")
             date_diff = now - parcetime
             day_diff = date_diff.days
-            print("DEBUG MESSAGE: 일 수 차이:",day_diff," Parce Date:",parcetime," ul:",selectarticle_ul," li:",selectarticle_li," page:",page_num," subpage:",subpage)	# 일 수 차이 : 15
+            print("DEBUG MESSAGE: 일 수 차이:",day_diff," Parce Date:",parcetime," ul:",selectarticle_ul," li:",selectarticle_li," subpage:",subpage)	# 일 수 차이 : 15
             if day_diff > 0:
                 if selectarticle_ul == 1 and selectarticle_li == 1 and subpage == 2:
                     print("DEBUG MESSAGE: This section has no new article.")
@@ -106,12 +106,10 @@ def get_articles(news_msg):
         if selectarticle_ul >= 5:
             # url change or click next page
             subpage += 1
-            # url_sub_temp = url_temp + "?page" + str(subpage)
             xpath_val = "/html/body/div[1]/div/div[3]/div[1]/div[1]/div[2]/a["+str(subpage)+"]"
             elem = driver.find_element_by_xpath(xpath_val)
             driver.execute_script("arguments[0].click();", elem)
 
-            #driver.get(url_sub_temp)
             time.sleep(1)
             selectarticle_ul = 1
             selectarticle_li = 1
@@ -124,29 +122,7 @@ def get_articles(news_msg):
             selectarticle_li += 1
 
     time.sleep(1)
-    # driver.close()
     news_list.append('\n\n---------------- 뉴스 끝 ------------------')
-    # news_list.append('https://finviz.com/map.ashx')
-    # print("DEBUG MESSAGE: page closed.")
-    # print(news_list)
-
-    # get US stock data 
-    time.sleep(1)
-    news_list.append('\n\n------------- 미 증시 map ------------------')
-    # url = "https://finviz.com/map.ashx"
-    # driver.get(url)
-    # time.sleep(1)
-    # xpath_val = "/html/body/div[2]/div/div[1]/div[3]/div/a[1]"
-    # driver.find_element_by_xpath(xpath_val).click()
-    # time.sleep(5)
-    # pict = driver.find_element_by_class_name("export-image").get_attribute("src")
-    # news_list.append(pict)
-    pict = "https://finviz.com/map.ashx"
-    news_list.append(pict)
-
-    driver.close()
-    print("DEBUG MESSAGE: page closed.")
-    news_list.append('\n\n------------- 미 증시 map 끝 ------------------')
 
     for msg in news_list:
         news_msg = news_msg+'\n'+msg
@@ -158,7 +134,7 @@ def get_articles(news_msg):
 NEWS = ''
 
 # send slack bot all messages
-post_message(MYTOKEN,'#general',get_articles(NEWS))
+post_message(MYTOKEN,'#house',get_articles(NEWS))
 print("DEBUG MESSAGE: send slack message:",NEWS)
 
 print("DEBUG MESSAGE: program closed.")
