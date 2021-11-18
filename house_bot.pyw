@@ -58,13 +58,13 @@ def get_articles(news_msg):
     main = driver.window_handles
     for handle in main:
         if handle != main[0]:
-            driver.switch_to_window(handle)
+            driver.switch_to.window(handle)
             driver.close()
 
     print("DEBUG Message: All popup closed.\n")
 
     # page initializing
-    driver.switch_to_window(main[0])
+    driver.switch_to.window(main[0])
     now = datetime.now()
     news_list = []
 
